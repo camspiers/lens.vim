@@ -8,9 +8,11 @@
 ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═══╝  ╚═╝╚═╝     ╚═╝
 ```
 
-# lens.vim
+# Lens.vim
 
-`lens.vim` automatically resizes windows when their content exceeds their window dimensions,
+A Vim Automatic Window Resizing Plugin
+
+`Lens.vim` automatically resizes windows when their content exceeds their window dimensions,
 but does so respecting some minimum and maximum resize bounds ensuring automatically resized
 windows neither become too large (in cases of large content) or too small (in cases of small content).
 
