@@ -101,7 +101,7 @@ endfunction
 ""
 " By default set up running resize on window enter except for new windows
 augroup lens
-  let g:lens#win_enter_disabled = 0
+  let g:lens#enter_disabled = 0
   autocmd! WinNew * let g:lens#enter_disabled = 1
   autocmd! WinEnter * 
     \ if ! ( g:lens#disabled || g:lens#enter_disabled ) 
