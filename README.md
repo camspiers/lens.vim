@@ -16,7 +16,7 @@ windows neither become too large (in cases of large content) or too small (in ca
 
 ## Demo
 
-
+![Lens](https://user-images.githubusercontent.com/51294/75085928-222ab880-5593-11ea-881c-32f32db27fa5.gif)
 
 ## Animation
 
