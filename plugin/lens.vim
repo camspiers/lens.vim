@@ -26,6 +26,11 @@ if ! exists('g:lens#animate')
   let g:lens#animate = 1
 endif
 
+if ! exists("g:lens#resize_floating")
+  " Enable resizing of neovim's floating windows
+  let g:lens#resize_floating = 0
+endif
+
 if ! exists('g:lens#height_resize_max')
   " When resizing don't go beyond the following height
   let g:lens#height_resize_max = 20
@@ -74,6 +79,13 @@ endfunction
 ""
 " Resizes the window to respect minimal lens configuration
 function! lens#run() abort
+  if exists('*nvim_win_get_config')
+    if ! g:lens#resize_floating && nvim_win_get_config(0)['relative'] != ''
+      " Don't resize if the window is floating
+      return
+    endif
+  endif
+
   let width = lens#get_size(
     \ winwidth(0),
     \ lens#get_cols(),
