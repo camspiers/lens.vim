@@ -22,7 +22,7 @@ windows neither become too large (in cases of large content) or too small (in ca
 
 ## Animation
 
-`lens.vim` by default integrates with the `camspiers/animate.vim` plugin for window animation.
+`lens.vim` by default integrates with the [camspiers/animate.vim](https://github.com/camspiers/animate.vim) plugin for window animation.
 
 ## Installation
 
