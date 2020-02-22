@@ -54,7 +54,7 @@ Out of the box `lens.vim` it set up to resize windows when they are entered, and
 The plugin can be disabled completely with:
 
 ```
-let g:ensure#disabled = 1
+let g:lens#disabled = 1
 ```
 
 ### Animate
@@ -62,7 +62,7 @@ let g:ensure#disabled = 1
 Animation is enabled by default, but can be disabled with:
 
 ```
-let g:ensure#animate = 0
+let g:lens#animate = 0
 ```
 
 ### Resize Max Height
