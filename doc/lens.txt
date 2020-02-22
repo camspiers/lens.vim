@@ -1,0 +1,85 @@
+*lens.txt*  Automatic Window Resizing Plugin
+                                                                        *lens*
+          ██╗     ███████╗███╗   ██╗███████╗  ██╗   ██╗██╗███╗   ███╗
+          ██║     ██╔════╝████╗  ██║██╔════╝  ██║   ██║██║████╗ ████║
+          ██║     █████╗  ██╔██╗ ██║███████╗  ██║   ██║██║██╔████╔██║
+          ██║     ██╔══╝  ██║╚██╗██║╚════██║  ╚██╗ ██╔╝██║██║╚██╔╝██║
+          ███████╗███████╗██║ ╚████║███████║██╗╚████╔╝ ██║██║ ╚═╝ ██║
+          ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝ ╚═══╝  ╚═╝╚═╝     ╚═╝
+
+Author:   Cam Spiers <camspiers@gmail.com>
+Repo:     https://github.com/Pablo1107/lens.vim
+
+==============================================================================
+TABLE OF CONTENTS                                              *lens-contents*
+
+INTRODUCTION...............................................|lens-introduction|
+    ANIMATION....................................|lens-introduction-animation|
+USAGE.............................................................|lens-usage|
+CONFIGURATION.............................................|lens-configuration|
+    g:lens#disabled..........................................|g:lens#disabled|
+    g:lens#animate............................................|g:lens#animate|
+    g:lens#height_resize_max........................|g:lens#height_resize_max|
+    g:lens#height_resize_min........................|g:lens#height_resize_min|
+    g:lens#width_resize_max..........................|g:lens#width_resize_max|
+    g:lens#width_resize_min..........................|g:lens#width_resize_min|
+
+==============================================================================
+INTRODUCTION                                               *lens-introduction*
+
+A Vim Automatic Window Resizing Plugin
+
+Lens.vim automatically resizes windows when their content exceeds their window
+dimensions, but does so respecting some minimum and maximum resize bounds
+ensuring automatically resized windows neither become too large (in cases of
+large content) or too small (in cases of small content).
+
+ANIMATION                                        *lens-introduction-animation*
+
+lens.vim by default integrates with the camspiers/animate.vim plugin for
+window animation if the plugin is installed and |g:lens#animate| is set to 1.
+
+==============================================================================
+USAGE                                                             *lens-usage*
+
+Out of the box lens.vim it set up to resize windows when they are entered, and
+as such the minimal usecase is covered. However this can be disabled and
+resizing can be preformed manually using lens#run().
+
+==============================================================================
+CONFIGURATION                                             *lens-configuration*
+
+                                                             *g:lens#disabled*
+g:lens#disabled
+             If value is 1 disables the plugin completaly.
+
+             Default value is 0.
+                                                              *g:lens#animate*
+g:lens#animate
+             If value is 1 and animate.vim is installed, the window resize
+             will be animated.
+
+             Default value is 1.
+                                                    *g:lens#height_resize_max*
+g:lens#height_resize_max
+             When resizing don't go beyond the following height.
+
+             Default value is 20.
+                                                    *g:lens#height_resize_min*
+g:lens#height_resize_min
+             When resizing don't go below the following height.
+
+             Default value is 5.
+                                                     *g:lens#width_resize_max*
+g:lens#width_resize_max
+             When resizing don't go beyond the following width.
+
+             Default value is 80.
+                                                     *g:lens#width_resize_min*
+g:lens#width_resize_min
+             When resizing don't go below the following width.
+
+             Default value is 20.
+
+==============================================================================
+vim:tw=78:nosta:noet:ts=8:sts=0:ft=help:noet:fen:fdm=marker:
