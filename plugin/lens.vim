@@ -51,6 +51,19 @@ if ! exists('g:lens#width_resize_min')
   let g:lens#width_resize_min = 20
 endif
 
+if ! exists('g:lens#disabled_filetypes')
+  " Disable for the following filetypes
+  let g:lens#disabled_filetypes = []
+endif
+
+""
+" Toggles the plugin on and off
+function! lens#toggle() abort
+  let g:lens#disabled = !g:lens#disabled
+endfunction
+
+""
+" Returns a width or height respecting the passed configuration
 function! lens#get_size(current, target, resize_min, resize_max) abort
   if a:current > a:target
     return a:current
@@ -79,13 +92,6 @@ endfunction
 ""
 " Resizes the window to respect minimal lens configuration
 function! lens#run() abort
-  if exists('*nvim_win_get_config')
-    if ! g:lens#resize_floating && nvim_win_get_config(0)['relative'] != ''
-      " Don't resize if the window is floating
-      return
-    endif
-  endif
-
   let width = lens#get_size(
     \ winwidth(0),
     \ lens#get_cols(),
@@ -110,15 +116,31 @@ function! lens#run() abort
   endif
 endfunction
 
+function! lens#win_enter() abort
+  " Don't resize if the window is floating
+  if exists('*nvim_win_get_config')
+    if ! g:lens#resize_floating && nvim_win_get_config(0)['relative'] != ''
+      return
+    endif
+  endif
+
+  if g:lens#disabled || g:lens#enter_disabled
+    return
+  endif
+
+  if index(g:lens#disabled_filetypes, &filetype) != -1
+    return
+  endif
+
+  call lens#run()
+endfunction
+
 ""
 " By default set up running resize on window enter except for new windows
 augroup lens
   let g:lens#enter_disabled = 0
   autocmd! WinNew * let g:lens#enter_disabled = 1
-  autocmd! WinEnter * 
-    \ if ! ( g:lens#disabled || g:lens#enter_disabled ) 
-      \  | call lens#run()
-    \ | endif
+  autocmd! WinEnter * call lens#win_enter()
   autocmd! WinNew * let g:lens#enter_disabled = 0
 augroup END
 
