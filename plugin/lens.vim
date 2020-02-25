@@ -80,13 +80,25 @@ endfunction
 ""
 " Gets the rows of the current window
 function! lens#get_rows() abort
-  return  line('$')
+  return line('$')
+endfunction
+
+""
+" Gets the target height
+function! lens#get_target_height() abort
+  return lens#get_rows() + (&laststatus != 0 ? 1 : 0)
 endfunction
 
 ""
 " Gets the cols of the current window
 function! lens#get_cols() abort
-  return max(map(getline(1,'$'), {k,v->len(v)})) + &numberwidth
+  return max(map(getline(1,'$'), {k,v->len(v)}))
+endfunction
+
+""
+" Gets the target width
+function! lens#get_target_width() abort
+  return lens#get_cols() + (wincol() - virtcol('.'))
 endfunction
 
 ""
@@ -94,14 +106,14 @@ endfunction
 function! lens#run() abort
   let width = lens#get_size(
     \ winwidth(0),
-    \ lens#get_cols(),
+    \ lens#get_target_width(),
     \ g:lens#width_resize_min,
     \ g:lens#width_resize_max
   \)
 
   let height = lens#get_size(
     \ winheight(0),
-    \ lens#get_rows(),
+    \ lens#get_target_height(),
     \ g:lens#height_resize_min,
     \ g:lens#height_resize_max
   \)
