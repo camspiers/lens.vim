@@ -18,7 +18,7 @@ INTRODUCTION...............................................|lens-introduction|
 USAGE.............................................................|lens-usage|
 CONFIGURATION.............................................|lens-configuration|
     g:lens#disabled..........................................|g:lens#disabled|
-    g:lens#disabled_filetypes......................g:lens#disabled_filetypes
+    g:lens#disabled_filetypes......................|g:lens#disabled_filetypes|
     g:lens#animate............................................|g:lens#animate|
     g:lens#height_resize_max........................|g:lens#height_resize_max|
     g:lens#height_resize_min........................|g:lens#height_resize_min|
