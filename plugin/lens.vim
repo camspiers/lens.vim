@@ -149,7 +149,7 @@ function! lens#win_enter() abort
     return
   endif
 
-  if index(g:lens#disabled_buftypes, &buftype != -1)
+  if index(g:lens#disabled_buftypes, &buftype) != -1
       return
   endif
 
