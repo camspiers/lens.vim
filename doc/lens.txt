@@ -19,6 +19,7 @@ USAGE.............................................................|lens-usage|
 CONFIGURATION.............................................|lens-configuration|
     g:lens#disabled..........................................|g:lens#disabled|
     g:lens#disabled_filetypes......................|g:lens#disabled_filetypes|
+    g:lens#disabled_buftypes........................|g:lens#disabled_buftypes|
     g:lens#animate............................................|g:lens#animate|
     g:lens#height_resize_max........................|g:lens#height_resize_max|
     g:lens#height_resize_min........................|g:lens#height_resize_min|
@@ -60,6 +61,13 @@ g:lens#disabled_filetypes
              Disables the plugin for the specified filetypes.
 
              Default value is [].
+
+                                                   *g:lens#disabled_buftypes*
+g:lens#disabled_buftypes
+             Disables the plugin for the specified buftypes.
+
+             Default value is [].
+                                                              *g:lens#animate*
                                                               *g:lens#animate*
 g:lens#animate
              If value is 1 and animate.vim is installed, the window resize
