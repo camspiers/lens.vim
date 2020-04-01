@@ -61,6 +61,11 @@ if ! exists('g:lens#disabled_buftypes')
   let g:lens#disabled_buftypes = []
 endif
 
+if ! exists('g:lens#disabled_filenames')
+  " Disable for the following filenames
+  let g:lens#disabled_filenames = []
+endif
+
 ""
 " Toggles the plugin on and off
 function! lens#toggle() abort
@@ -151,6 +156,15 @@ function! lens#win_enter() abort
 
   if index(g:lens#disabled_buftypes, &buftype) != -1
       return
+  endif
+
+  if len(g:lens#disabled_filenames) > 0
+      let l:filename = expand('%:p')
+      for l:pattern in g:lens#disabled_filenames
+          if match(l:filename, pattern)
+              return
+          endif
+      endfor
   endif
 
   call lens#run()

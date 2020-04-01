@@ -20,6 +20,7 @@ CONFIGURATION.............................................|lens-configuration|
     g:lens#disabled..........................................|g:lens#disabled|
     g:lens#disabled_filetypes......................|g:lens#disabled_filetypes|
     g:lens#disabled_buftypes........................|g:lens#disabled_buftypes|
+    g:lens#disabled_filenames......................|g:lens#disabled_filenames|
     g:lens#animate............................................|g:lens#animate|
     g:lens#height_resize_max........................|g:lens#height_resize_max|
     g:lens#height_resize_min........................|g:lens#height_resize_min|
@@ -65,6 +66,13 @@ g:lens#disabled_filetypes
                                                    *g:lens#disabled_buftypes*
 g:lens#disabled_buftypes
              Disables the plugin for the specified buftypes.
+
+             Default value is [].
+
+                                                   *g:lens#disabled_filenames*
+g:lens#disabled_filenames
+             Disables the plugin for the specified filenames using regular
+             expressions.
 
              Default value is [].
                                                               *g:lens#animate*
