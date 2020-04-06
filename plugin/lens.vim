@@ -135,6 +135,11 @@ function! lens#run() abort
   else
     execute 'vertical resize ' . width
     execute 'resize ' . height
+    setlocal winfixheight
+    setlocal winfixwidth
+    wincmd =
+    setlocal nowinfixheight
+    setlocal nowinfixwidth
   endif
 endfunction
 
