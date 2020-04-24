@@ -102,7 +102,7 @@ endfunction
 ""
 " Gets the cols of the current window
 function! lens#get_cols() abort
-  return max(map(getline(1,'$'), {k,v->len(v)}))
+  return max(map(getline(line("w0"),line("w$")), {k,v->len(v)}))
 endfunction
 
 ""
@@ -161,7 +161,7 @@ function! lens#win_enter() abort
   if len(g:lens#disabled_filenames) > 0
       let l:filename = expand('%:p')
       for l:pattern in g:lens#disabled_filenames
-          if match(l:filename, pattern)
+          if match(l:filename, l:pattern) > -1
               return
           endif
       endfor
