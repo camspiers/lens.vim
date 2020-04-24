@@ -102,7 +102,7 @@ endfunction
 ""
 " Gets the cols of the current window
 function! lens#get_cols() abort
-  return max(map(getline(1,'$'), {k,v->len(v)}))
+  return max(map(getline(line("w0"),line("w$")), {k,v->len(v)}))
 endfunction
 
 ""
