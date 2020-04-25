@@ -146,7 +146,7 @@ function! lens#win_enter() abort
     endif
   endif
 
-  if g:lens#disabled || g:lens#enter_disabled
+  if g:lens#disabled
     return
   endif
 
@@ -171,12 +171,9 @@ function! lens#win_enter() abort
 endfunction
 
 ""
-" By default set up running resize on window enter except for new windows
+" Run resizing on window enter
 augroup lens
-  let g:lens#enter_disabled = 0
-  autocmd! WinNew * let g:lens#enter_disabled = 1
   autocmd! WinEnter * call lens#win_enter()
-  autocmd! WinNew * let g:lens#enter_disabled = 0
 augroup END
 
 " vim:fdm=marker
