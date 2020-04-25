@@ -156,11 +156,19 @@ function! lens#win_enter(_) abort
     return
   endif
 
+  for b in tabpagebuflist(tabpagenr())
+      if getbufvar(b, 'lens_disabled', 0)
+          return
+      endif
+  endfor
+
   if index(g:lens#disabled_filetypes, &filetype) != -1
-    return
+      let b:lens_disabled = 1
+      return
   endif
 
   if index(g:lens#disabled_buftypes, &buftype) != -1
+      let b:lens_disabled = 1
       return
   endif
 
@@ -168,6 +176,7 @@ function! lens#win_enter(_) abort
       let l:filename = expand('%:p')
       for l:pattern in g:lens#disabled_filenames
           if match(l:filename, l:pattern) > -1
+              let b:lens_disabled = 1
               return
           endif
       endfor
