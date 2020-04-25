@@ -31,24 +31,20 @@ if ! exists("g:lens#resize_floating")
   let g:lens#resize_floating = 0
 endif
 
-if ! exists('g:lens#height_resize_max')
-  " When resizing don't go beyond the following height
-  let g:lens#height_resize_max = 20
-endif
+" Use ratio to specify resize max/min
+let g:lens#specify_dim_by_ratio = get(g:, 'lens#specify_dim_by_ratio', v:false)
 
-if ! exists('g:lens#height_resize_min')
-  " When resizing don't go below the following height
-  let g:lens#height_resize_min = 5
-endif
-
-if ! exists('g:lens#width_resize_max')
-  " When resizing don't go beyond the following width
-  let g:lens#width_resize_max = 80
-endif
-
-if ! exists('g:lens#width_resize_min')
-  " When resizing don't go below the following width
-  let g:lens#width_resize_min = 20
+" When resizing don't go beyond the following constraint
+if g:lens#specify_dim_by_ratio
+  let g:lens#height_resize_max = get(g:, 'lens#height_resize_max', 0.62)
+  let g:lens#height_resize_min = get(g:, 'lens#height_resize_min', 0.16)
+  let g:lens#width_resize_max  = get(g:, 'lens#width_resize_max', 0.67)
+  let g:lens#width_resize_min  = get(g:, 'lens#width_resize_min', 0.17)
+else
+  let g:lens#height_resize_max = get(g:, 'lens#height_resize_max', 20)
+  let g:lens#height_resize_min = get(g:, 'lens#height_resize_min', 5)
+  let g:lens#width_resize_max  = get(g:, 'lens#width_resize_max', 80)
+  let g:lens#width_resize_min  = get(g:, 'lens#width_resize_min', 20)
 endif
 
 if ! exists('g:lens#disabled_filetypes')
@@ -66,6 +62,11 @@ if ! exists('g:lens#disabled_filenames')
   let g:lens#disabled_filenames = []
 endif
 
+if ! exists('g:Lens_custom_disable_check')
+  " Disable for the following customized function
+  let g:Lens_custom_disable_check = {->v:false}
+endif
+
 ""
 " Toggles the plugin on and off
 function! lens#toggle() abort
@@ -74,15 +75,23 @@ endfunction
 
 ""
 " Returns a width or height respecting the passed configuration
-function! lens#get_size(current, target, resize_min, resize_max) abort
+function! lens#get_size(current, target, resize_min, resize_max, resize_reference) abort
   if a:current > a:target
     return a:current
   endif
+
+  let l:resize_min = a:resize_min
+  let l:resize_max = a:resize_max
+  if g:lens#specify_dim_by_ratio
+      let l:resize_min = float2nr(l:resize_min * a:resize_reference)
+      let l:resize_max = float2nr(l:resize_max * a:resize_reference)
+  endif
+
   return max([
     \ a:current,
     \ min([
-      \ max([a:target, a:resize_min]),
-      \ a:resize_max,
+      \ max([a:target, l:resize_min]),
+      \ l:resize_max,
     \ ])
   \ ])
 endfunction
@@ -118,14 +127,16 @@ function! lens#run() abort
     \ winwidth(0),
     \ lens#get_target_width(),
     \ g:lens#width_resize_min,
-    \ g:lens#width_resize_max
+    \ g:lens#width_resize_max,
+    \ &columns
   \)
 
   let height = lens#get_size(
     \ winheight(0),
     \ lens#get_target_height(),
     \ g:lens#height_resize_min,
-    \ g:lens#height_resize_max
+    \ g:lens#height_resize_max,
+    \ &lines
   \)
 
   if g:lens#animate && exists('g:animate#loaded') && g:animate#loaded
@@ -138,7 +149,7 @@ function! lens#run() abort
   endif
 endfunction
 
-function! lens#win_enter() abort
+function! lens#win_enter(_) abort
   " Don't resize if the window is floating
   if exists('*nvim_win_get_config')
     if ! g:lens#resize_floating && nvim_win_get_config(0)['relative'] != ''
@@ -146,15 +157,23 @@ function! lens#win_enter() abort
     endif
   endif
 
-  if g:lens#disabled || g:lens#enter_disabled
+  if g:lens#disabled
     return
   endif
 
+  for b in tabpagebuflist(tabpagenr())
+      if getbufvar(b, 'lens_disabled', 0)
+          return
+      endif
+  endfor
+
   if index(g:lens#disabled_filetypes, &filetype) != -1
-    return
+      let b:lens_disabled = 1
+      return
   endif
 
   if index(g:lens#disabled_buftypes, &buftype) != -1
+      let b:lens_disabled = 1
       return
   endif
 
@@ -162,21 +181,29 @@ function! lens#win_enter() abort
       let l:filename = expand('%:p')
       for l:pattern in g:lens#disabled_filenames
           if match(l:filename, l:pattern) > -1
+              let b:lens_disabled = 1
               return
           endif
       endfor
   endif
 
+  if g:Lens_custom_disable_check()
+      let b:lens_disabled = 1
+      return
+  endif
+
+
   call lens#run()
 endfunction
 
 ""
-" By default set up running resize on window enter except for new windows
+" Run resizing on window enter
 augroup lens
-  let g:lens#enter_disabled = 0
-  autocmd! WinNew * let g:lens#enter_disabled = 1
-  autocmd! WinEnter * call lens#win_enter()
-  autocmd! WinNew * let g:lens#enter_disabled = 0
+    if(has('timers'))
+      autocmd! WinEnter * call timer_start(100, 'lens#win_enter')
+    else
+      autocmd! WinEnter * call lens#win_enter(-1)
+    endif
 augroup END
 
 " vim:fdm=marker
