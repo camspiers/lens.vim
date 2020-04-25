@@ -144,7 +144,7 @@ function! lens#run() abort
   endif
 endfunction
 
-function! lens#win_enter() abort
+function! lens#win_enter(_) abort
   " Don't resize if the window is floating
   if exists('*nvim_win_get_config')
     if ! g:lens#resize_floating && nvim_win_get_config(0)['relative'] != ''
@@ -179,7 +179,11 @@ endfunction
 ""
 " Run resizing on window enter
 augroup lens
-  autocmd! WinEnter * call lens#win_enter()
+    if(has('timers'))
+      autocmd! WinEnter * call timer_start(100, 'lens#win_enter')
+    else
+      autocmd! WinEnter * call lens#win_enter(-1)
+    endif
 augroup END
 
 " vim:fdm=marker
