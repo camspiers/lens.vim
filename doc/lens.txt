@@ -69,6 +69,22 @@ g:lens#disabled_buftypes
 
              Default value is [].
 
+                                                   *g:Lens_custom_disable_check*
+g:Lens_custom_disable_check
+             Disables the plugin using the customized |function()|.
+
+             Default value is `{->v:false}` (see |lambda|).
+
+             Example:
+>
+	    function! s:LensDisable()
+		if &diff
+		    return v:true
+		endif
+		return v:false
+	    endfunction
+	    let g:Lens_custom_disable_check = function('s:LensDisable')
+
                                                    *g:lens#disabled_filenames*
 g:lens#disabled_filenames
              Disables the plugin for the specified filenames using regular

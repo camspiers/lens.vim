@@ -62,6 +62,11 @@ if ! exists('g:lens#disabled_filenames')
   let g:lens#disabled_filenames = []
 endif
 
+if ! exists('g:Lens_custom_disable_check')
+  " Disable for the following customized function
+  let g:Lens_custom_disable_check = {->v:false}
+endif
+
 ""
 " Toggles the plugin on and off
 function! lens#toggle() abort
@@ -181,6 +186,12 @@ function! lens#win_enter(_) abort
           endif
       endfor
   endif
+
+  if g:Lens_custom_disable_check()
+      let b:lens_disabled = 1
+      return
+  endif
+
 
   call lens#run()
 endfunction
