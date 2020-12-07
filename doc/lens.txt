@@ -76,7 +76,6 @@ g:lens#disabled_filenames
 
              Default value is [].
                                                               *g:lens#animate*
-                                                              *g:lens#animate*
 g:lens#animate
              If value is 1 and animate.vim is installed, the window resize
              will be animated.
