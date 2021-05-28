@@ -66,6 +66,12 @@ if ! exists('g:lens#disabled_filenames')
   let g:lens#disabled_filenames = []
 endif
 
+if ! exists('g:lens#disable_for_diff')
+  " Disable for the following filenames
+  let g:lens#disable_for_diff = 0
+endif
+
+
 ""
 " Toggles the plugin on and off
 function! lens#toggle() abort
@@ -165,6 +171,12 @@ function! lens#win_enter() abort
               return
           endif
       endfor
+  endif
+
+  if g:lens#disable_for_diff == 1
+    if &diff == 1
+      return
+    endif
   endif
 
   call lens#run()
