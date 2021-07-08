@@ -82,26 +82,37 @@ g:lens#animate
              will be animated.
 
              Default value is 1.
+
+                                                    *g:lens#specify_dim_by_ratio*
+g:lens#specify_dim_by_ratio
+	     If value is 1, the options |g:lens#height_resize_max|,
+	     |g:lens#height_resize_min|, |g:lens#width_resize_max|,
+	     |g:lens#width_resize_min|, are interpreted as ratio against the
+	     screen height/width. Otherwise, they are interpreted as the number
+	     of rows/columns.
+
+             Default value is 0.
+
                                                     *g:lens#height_resize_max*
 g:lens#height_resize_max
              When resizing don't go beyond the following height.
 
-             Default value is 20.
+             Default value is 20 or 0.62 if |g:lens#specify_dim_by_ratio|=1.
                                                     *g:lens#height_resize_min*
 g:lens#height_resize_min
              When resizing don't go below the following height.
 
-             Default value is 5.
+             Default value is 5 or 0.16 if |g:lens#specify_dim_by_ratio|=1.
                                                      *g:lens#width_resize_max*
 g:lens#width_resize_max
              When resizing don't go beyond the following width.
 
-             Default value is 80.
+             Default value is 80 or 0.67 if |g:lens#specify_dim_by_ratio|=1.
                                                      *g:lens#width_resize_min*
 g:lens#width_resize_min
              When resizing don't go below the following width.
 
-             Default value is 20.
+             Default value is 20 or 0.17 if |g:lens#specify_dim_by_ratio|=1.
 
 ==============================================================================
 vim:tw=78:nosta:noet:ts=8:sts=0:ft=help:noet:fen:fdm=marker:
